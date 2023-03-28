@@ -14,9 +14,18 @@ function Content() {
   const matcapTextureMono = useMatcapTexture('433D3F_A58D7D_786760_8C7C6D', 256);
   const objectRef = useRef();
   useFrame((state, delta)=> {
-    // console.log(objectRef.current)
+    // console.log(objectRef.current.children)
     for (let obj of objectRef.current.children) {
-        obj.rotation.x += delta + 0.1
+        if (obj.name === 'cone' || obj.name === 'cylinder') {
+            obj.rotation.x += delta 
+        }
+        if (obj.name === 'torus') {
+            obj.rotation.y += delta + 0.01
+        }
+        if (obj.name === 'box') {
+            obj.rotation.z += delta + 0.2
+        }
+
     }
   })
   return (
@@ -40,7 +49,8 @@ function Content() {
               <mesh position=
               {[(Math.random() - 0.5) * 20,
               (Math.random() - 0.5) * 10,
-              (Math.random() - 5)]}>
+              (Math.random() - 3)]}
+              name="cylinder">
               
               <cylinderGeometry args={[0.2,0.2,0.6,20]} />
               <meshMatcapMaterial matcap={ matcapTextureCyl[0] } />
@@ -48,9 +58,9 @@ function Content() {
             ))
             }
             {meshArr.map((item)=>(
-              <mesh position={[(Math.random() - 0.5) * 10,
-              (Math.random() - 0.5) * 30,
-              (Math.random() - 5)]}>
+              <mesh position={[(Math.random() - 0.5) * 30,
+              (Math.random() - 0.5) * 10,
+              (Math.random() - 5)]} name="torus">
               
               <torusGeometry args={[0.2,0.1,16,32]}/>
               <meshMatcapMaterial matcap={ matcapTextureTorus[0] } />
@@ -61,7 +71,7 @@ function Content() {
             {meshArr.map((item)=>(
               <mesh position={[(Math.random() - 0.5) * 10,
               (Math.random() - 0.5) * 10,
-              (Math.random() - 5)]}>
+              (Math.random() - 6)]} name="cone">
               
               <coneGeometry args={[0.2,0.5,32]}/>
               <meshMatcapMaterial matcap={ matcapTexturePoly[0] } />
@@ -70,11 +80,11 @@ function Content() {
             ))
             }
             {meshArr.map((item)=>(
-              <mesh position={[(Math.random() - 0.5) * 10,
-              (Math.random() - 0.5) * 50,
-              (Math.random() - 5)]}>
+              <mesh position={[(Math.random() - 0.5) * 50,
+              (Math.random() - 0.5) * 10,
+              (Math.random() - 4)]} name="box">
               
-              <boxGeometry args={[0.2,0.2,0.2]}/>
+              <boxGeometry args={[0.5,0.5,0.5]}/>
               <meshMatcapMaterial matcap={ matcapTextureMono[0] } />
 
             </mesh>
