@@ -2,15 +2,23 @@ import './App.css';
 import { PresentationControls, ContactShadows, Html, useMatcapTexture
   ,Float ,Environment ,useGLTF , Text3D, Text,
   OrbitControls } from '@react-three/drei';
-import { CylinderGeometry } from 'three';
+import { useRef } from 'react';
+import { useFrame } from '@react-three/fiber';
 function Content() {
 
   const computer = useGLTF('https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/macbook/model.gltf');
-  const meshArr = [...Array(10)];
+  const meshArr = [...Array(20)];
   const matcapTextureTorus = useMatcapTexture('3E3D39_D6CEAF_91BAC1_897966', 256);
   const matcapTextureCyl = useMatcapTexture('3E3E3E_AEAEAE_848484_777777', 256);
   const matcapTexturePoly = useMatcapTexture('3F4441_D1D7D6_888F87_A2ADA1', 256);
   const matcapTextureMono = useMatcapTexture('433D3F_A58D7D_786760_8C7C6D', 256);
+  const objectRef = useRef();
+  useFrame((state, delta)=> {
+    // console.log(objectRef.current)
+    for (let obj of objectRef.current.children) {
+        obj.rotation.x += delta + 0.1
+    }
+  })
   return (
     <>
       <Environment preset='city'/>
@@ -26,12 +34,13 @@ function Content() {
           {/* <Text>Welcome</Text> */}
           {/* <Text3D position={[1,1,0]}>Welcome</Text3D> */}
 
-          <group>
+          <group ref={objectRef}>
 
             {meshArr.map((item)=>(
-              <mesh position={[(Math.random() - 0.5) * 10,
+              <mesh position=
+              {[(Math.random() - 0.5) * 20,
               (Math.random() - 0.5) * 10,
-              (Math.random())]}>
+              (Math.random() - 5)]}>
               
               <cylinderGeometry args={[0.2,0.2,0.6,20]} />
               <meshMatcapMaterial matcap={ matcapTextureCyl[0] } />
@@ -40,8 +49,8 @@ function Content() {
             }
             {meshArr.map((item)=>(
               <mesh position={[(Math.random() - 0.5) * 10,
-              (Math.random() - 0.5) * 10,
-              (Math.random() - 0.5)]}>
+              (Math.random() - 0.5) * 30,
+              (Math.random() - 5)]}>
               
               <torusGeometry args={[0.2,0.1,16,32]}/>
               <meshMatcapMaterial matcap={ matcapTextureTorus[0] } />
@@ -52,7 +61,7 @@ function Content() {
             {meshArr.map((item)=>(
               <mesh position={[(Math.random() - 0.5) * 10,
               (Math.random() - 0.5) * 10,
-              (Math.random() - 0.5)]}>
+              (Math.random() - 5)]}>
               
               <coneGeometry args={[0.2,0.5,32]}/>
               <meshMatcapMaterial matcap={ matcapTexturePoly[0] } />
@@ -62,8 +71,8 @@ function Content() {
             }
             {meshArr.map((item)=>(
               <mesh position={[(Math.random() - 0.5) * 10,
-              (Math.random() - 0.5) * 10,
-              (Math.random() - 0.5)]}>
+              (Math.random() - 0.5) * 50,
+              (Math.random() - 5)]}>
               
               <boxGeometry args={[0.2,0.2,0.2]}/>
               <meshMatcapMaterial matcap={ matcapTextureMono[0] } />
