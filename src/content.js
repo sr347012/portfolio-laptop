@@ -16,7 +16,7 @@ function Content() {
   useFrame((state, delta)=> {
     // console.log(objectRef.current.children)
     for (let obj of objectRef.current.children) {
-        if (obj.name === 'cone' || obj.name === 'cylinder') {
+        if (obj.name === 'cylinder') {
             obj.rotation.x += delta 
         }
         if (obj.name === 'torus') {
